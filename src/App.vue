@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link>|
       <router-link v-if="$auth.isAuthenticated" to="/profile">Profile</router-link>|
       <router-link to="/external-api">External Api</router-link>
+      <h1>Prueba de pipeline</h1>
     </div>
     <router-view/>
   </div>
