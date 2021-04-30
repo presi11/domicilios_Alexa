@@ -1,4 +1,5 @@
 {
     "domain": "domivo.us.auth0.com",
-    "clientId": "Wy2PsDes8WGWBuZxGeWOhTHubhLvsQCX"
+    "clientId": "Wy2PsDes8WGWBuZxGeWOhTHubhLvsQCX",
+    "audience": "https://graphql-api"
 }
