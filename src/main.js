@@ -5,46 +5,12 @@ import store from './store'
 import VueApollo from 'vue-apollo'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
+import { setContext} from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-
-
-// HTTP connection to the API
-const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: 'https://domivo.herokuapp.com/graphql',
-})
-
-// Cache implementation
-const cache = new InMemoryCache()
-
-
-// Create the apollo client
-const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache,
-  request: operation =>{
-    operation.setContext(context => ({
-      headers: {
-        ...context.headers,
-        authorization: `Bearer ${$auth.getTokenSilently()}`,
-      }
-    })
-    )
-  }
-})
-
-
-
+import { Auth0Plugin, getInstance} from "./auth";
 // Import the Auth0 configuration
 import { domain, clientId, audience } from "../auth_config.json";
-
-// Import the plugin here
-import { Auth0Plugin } from "./auth";
-//Install the plugin into Vue
-Vue.use(VueApollo);
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
-})
+import { from } from 'apollo-link'
 
 Vue.use(Auth0Plugin, {
   domain,
@@ -58,6 +24,67 @@ Vue.use(Auth0Plugin, {
     );
   }
 });
+const getHeaders = async () => {
+  const headers = {};
+  const authService = getInstance();
+  console.log('authService', authService)
+
+  const getToken = async () => {
+    if (authService.isAuthenticated) {
+      const token = await authService.getTokenSilently();
+      //console.log('token:', token);
+      headers.authorization = token ? `Bearer ${token}` : '';
+      //console.log('headers:', headers);
+      const result = token ? `Bearer ${token}` : '';
+      return result;
+    }
+  };
+
+  // If loading has already finished, check our auth state using getToken()
+  if (!authService.loading) {
+      return getToken();
+  }
+
+  // Watch for the loading property to change before we check isAuthenticated
+  authService.$watch('loading', loading => {
+      if (loading === false) {
+          return getToken();
+      }
+  });
+};
+
+const authMiddleware = setContext(() =>
+  getHeaders().then(token => {
+      console.log(token)
+      return {
+          headers: {
+              authorization: token || null,
+          },
+      };
+  })
+);
+
+// HTTP connection to the API
+const httpLink = createHttpLink({
+  // You should use an absolute URL here
+  uri: 'https://domivo.herokuapp.com/graphql',
+  
+})
+
+// Cache implementation
+const cache = new InMemoryCache()
+
+// Create the apollo client
+const apolloClient = new ApolloClient({
+  link:  from([authMiddleware, httpLink]),
+  cache,
+})
+
+//Install the plugin into Vue
+Vue.use(VueApollo);
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+})
 
 Vue.config.productionTip = false;
 

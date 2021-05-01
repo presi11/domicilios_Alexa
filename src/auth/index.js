@@ -10,6 +10,7 @@ let instance;
 /** Returns the current instance of the SDK */
 export const getInstance = () => instance;
 
+
 /** Creates an instance of the Auth0 SDK. If one has already been created, it returns that instance */
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
@@ -27,7 +28,7 @@ export const useAuth0 = ({
         user: {},
         auth0Client: null,
         popupOpen: false,
-        error: null
+        error: null,
       };
     },
     methods: {
@@ -80,7 +81,7 @@ export const useAuth0 = ({
       /** Logs the user out and removes their session on the authorization server */
       logout(o) {
         return this.auth0Client.logout(o);
-      }
+      },
     },
     /** Use this lifecycle method to instantiate the SDK client */
     async created() {
@@ -89,7 +90,7 @@ export const useAuth0 = ({
         domain: options.domain,
         client_id: options.clientId,
         audience: options.audience,
-        redirect_uri: redirectUri
+        redirect_uri: redirectUri,
       });
 
       try {
@@ -113,7 +114,7 @@ export const useAuth0 = ({
         this.user = await this.auth0Client.getUser();
         this.loading = false;
       }
-    }
+    },
   });
 
   return instance;
@@ -123,5 +124,5 @@ export const useAuth0 = ({
 export const Auth0Plugin = {
   install(Vue, options) {
     Vue.prototype.$auth = useAuth0(options);
-  }
+  },
 };
