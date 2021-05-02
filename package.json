@@ -18,6 +18,8 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "i": "^0.3.6",
+    "mdb-vue-ui-kit": "^1.0.0-beta3",
+    "mdbvue": "^6.7.2",
     "vue": "^2.6.11",
     "vue-apollo": "^3.0.7",
     "vue-router": "^3.2.0",

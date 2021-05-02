@@ -11,6 +11,9 @@ import { Auth0Plugin, getInstance} from "./auth";
 // Import the Auth0 configuration
 import { domain, clientId, audience } from "../auth_config.json";
 import { from } from 'apollo-link'
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/lib/css/mdb.min.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 Vue.use(Auth0Plugin, {
   domain,

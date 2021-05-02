@@ -1,17 +1,87 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>|
-      <router-link v-if="$auth.isAuthenticated" to="/profile">Profile</router-link>|
-      <router-link to="/external-api">External Api</router-link>
-      <h1>Prueba de pipeline 2</h1>
-    </div>
-    <router-view/>
-  </div>
-</template>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+              <router-link to="/"><a class="navbar-brand" href="#">Hermes</a></router-link>
+              <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <router-link to="/about"><a class="nav-link" >Acerca de</a></router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link v-if="$auth.isAuthenticated" to="/profile"><a class="nav-link">Perfil</a></router-link>
+                  </li>
+                  <li class="nav-item">
+                   <router-link to="/external-api"><a class="nav-link">External api</a></router-link> 
+                  </li>
+                   <li class="nav-item">
+                    <a class="nav-link" v-if="!$auth.isAuthenticated" @click="login">Iniciar sesión</a>
+                    <a class="nav-link" v-if="$auth.isAuthenticated" @click="logout">Cerrar sesión</a>
+                  </li>
 
+
+                </ul>
+
+                <ul class="navbar-nav d-flex flex-row">
+                  <!-- Icons -->
+                  <li class="nav-item me-3 me-lg-0">
+                    <a class="nav-link" href="https://github.com/presi11/domicilios_alexa">
+                      <i class="fab fa-github"></i>
+                    </a>
+                  </li>
+                  <!-- Icon dropdown -->
+                  <li class="nav-item me-3 me-lg-0 dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li>
+                        <a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <router-view/>
+  </div>
+  
+</template>
+<script>
+
+
+// .. imports removed for brevity
+
+export default {
+  methods: {
+    // Log the user in
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    // Log the user out
+    logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      });
+    }
+  }
+};
+
+</script>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
