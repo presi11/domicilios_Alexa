@@ -30,7 +30,7 @@
             </li>
             <li class="nav-item">
               <router-link to="/external-api"
-                ><a class="nav-link">External api</a></router-link
+                ><a class="nav-link">Pedidos</a></router-link
               >
             </li>
             <li class="nav-item">
