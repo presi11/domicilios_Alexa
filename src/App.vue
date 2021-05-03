@@ -70,15 +70,14 @@
                 class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end"
                 aria-labelledby="navbarDropdown"
               >
-                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><router-link v-if="$auth.isAuthenticated" to="/profile"
+                ><a  class="dropdown-item" href="#">Perfil</a></router-link
+              ></li>
                 <li>
-                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" v-if="!$auth.isAuthenticated" @click="login">Iniciar sesión</a>
                 </li>
                 <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" v-if="$auth.isAuthenticated" @click="logout">Cerrar sesión</a>
                 </li>
               </ul>
             </li>

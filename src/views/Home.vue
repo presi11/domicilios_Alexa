@@ -6,10 +6,11 @@
     <!-- Check that the SDK client is not currently loading before accessing is methods -->
     <div v-if="!$auth.loading">
       <!-- show login when not authenticated -->
-      <!-- <MDBBtn color="warning" v-if="!$auth.isAuthenticated" @click="login">Log in</MDBBtn>-->
+      <button type="button" class="btn btn-info" v-if="!$auth.isAuthenticated" @click="login">Iniciar Sesión</button>
       <!-- show logout when authenticated -->
-      <!--<MDBBtn  color="Danger" v-if="$auth.isAuthenticated" @click="logout">Log out</MDBBtn>-->
+      <button  type="button" class="btn btn-danger" v-if="$auth.isAuthenticated" @click="logout">Cerrar Sesión</button>
     </div>
+    <img alt="Card of pedido mockup" src="../assets/Card_mockup.png"> 
   </div>
 </template>
 

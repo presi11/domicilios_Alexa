@@ -3,7 +3,6 @@
     
     <h1>This is an about page</h1>
     <div>{{hello_world}}</div>
-    <button type="button" class="btn btn-primary">Button</button>
     
   </div>
 </template>
