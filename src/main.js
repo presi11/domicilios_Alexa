@@ -11,10 +11,9 @@ import { Auth0Plugin, getInstance} from "./auth";
 // Import the Auth0 configuration
 import { domain, clientId, audience } from "../auth_config.json";
 import { from } from 'apollo-link'
-import 'bootstrap-css-only/css/bootstrap.min.css'
-import 'mdbvue/lib/css/mdb.min.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
+import * as mdb from 'mdb-ui-kit'; // lib
 
+Vue.use(mdb);
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
@@ -30,14 +29,11 @@ Vue.use(Auth0Plugin, {
 const getHeaders = async () => {
   const headers = {};
   const authService = getInstance();
-  console.log('authService', authService)
 
   const getToken = async () => {
     if (authService.isAuthenticated) {
       const token = await authService.getTokenSilently();
-      //console.log('token:', token);
       headers.authorization = token ? `Bearer ${token}` : '';
-      //console.log('headers:', headers);
       const result = token ? `Bearer ${token}` : '';
       return result;
     }
@@ -58,7 +54,6 @@ const getHeaders = async () => {
 
 const authMiddleware = setContext(() =>
   getHeaders().then(token => {
-      console.log(token)
       return {
           headers: {
               authorization: token || null,
